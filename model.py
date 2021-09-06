@@ -11,7 +11,7 @@ def load_db():
 
 def save_db():
     with open("flahscards_db.json", 'w') as f:
-        return json.dump(db, f)
+        return json.dump(db, f, indent=4, sort_keys=True)   # los parametos de ident y sort_key ordenan el objeto o diccionario
 
 
 # Writing JSON content to a file using the dump method
