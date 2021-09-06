@@ -4,7 +4,11 @@ from flask import (Flask, render_template, abort, jsonify, request, redirect, ur
 from model import db, save_db
 # se importa los datos del archivo json almacenados en la variable "db"
 
+# Creando al app
+
 app = Flask(__name__)
+
+# Main de la pagina
 
 @app.route("/")
 def welcome():
@@ -12,6 +16,8 @@ def welcome():
     "welcome.html", #   muestra el HTML con la informacion de la bd
     cards = db  # variable que contiene todas las tarjetas de la bd
     )
+
+# Establece la vista para cada indice o carta
 
 @app.route("/card/<int:index>") # representa "View" del patron MTV. El parametro del decorador presenta la ruta o el indice en la URL.
 def card_view(index):   # muestra pagina con el indice de la tarjeta creada
@@ -23,6 +29,8 @@ def card_view(index):   # muestra pagina con el indice de la tarjeta creada
                                max_index=len(db)-1) # muestra el indice de la ultima tarjeta en la bd   
     except IndexError:  #   fin del bloque que maneja el error del indice
         abort(404)  # mensaje que se mostrara tras el error de indice
+
+# Agregar cartas
 
 @app.route('/add_card', methods=["GET", "POST"])    # se pasa como parametros los metodos HTTP a admitir debido a que se usa un Form.
 def add_card():
@@ -36,6 +44,8 @@ def add_card():
     else:   # se confirma el metodo GET y con lo cual se desea retornar al formulario
         return render_template("add_card.html")
 
+# Remover cartas
+
 @app.route('/remove_card/<int:index>', methods=["GET", "POST"])
 def remove_card(index):
     try:
@@ -48,6 +58,8 @@ def remove_card(index):
     except IndexError:
         abort(404)
 
+#simulado una API REST con Flask..
+
 @app.route("/api/card/")
 def api_card_list():
     return jsonify(db)  #   se agrega "jsonify" because "db" es una lista y no esta permitido en Flask para Api REST. Con lo cual se agrega 
@@ -59,6 +71,8 @@ def api_card_detail(index):
         return db[index]    # retorna el objeto de la tarjeta desde la BD y lo retornara como JSON y eso devolvera una respuesta RESTful.
     except IndexError:      # 
         abort(404)
+
+# Contando views..
 
 '''
 @app.route("/date")
@@ -73,6 +87,8 @@ def count_views():
     counter += 1
     return "This page was served at: " + str(counter) + " times."
 '''
+
+# Inicializando la app
 
 if __name__ == "__main__":
     app.run(debug=True)
