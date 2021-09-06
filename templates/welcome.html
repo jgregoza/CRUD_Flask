@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+
+<h1>Welcome to my page!</h1>
+<p>
+    This is the demo application for de course
+    <em>Getting Started with Flask</em>
+    on <a href="https//:www.pluralsight.com/">Pluralsight</a>
+</p>
+<h2>Flash Card</h2>
+<ul>
+    {% for card in cards %}
+    <!-- Jinja expresion For. Permitira mostrar una nueva etiqueta/enlace para cada tarjeta creada(crea una lista desodenada)-->
+    <li>
+        <a href="{{ url_for('card_view', index=loop.index0) }}">
+            <!-- muestra las tarjetas como enlaces -->
+            <!-- loop.index en una variable especial de Jinja que arroja la cantidad de veces que hemos pasado por el bucle(for)-->
+            <!-- establece el recueto en 0 -->
+            {{ card.question }}
+            <!-- placeholder que mostrara el dato de la bd para "question" de la tarjeta -->
+        </a>
+    </li>
+    {% endfor %}
+    <!-- fin del bloque FOR -->
+</ul>
+<a href="{{ url_for('add_card') }}">Add a new Card</a>
+
+{% endblock %}
